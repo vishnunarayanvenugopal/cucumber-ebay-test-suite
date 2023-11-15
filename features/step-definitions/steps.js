@@ -34,10 +34,9 @@ When(/^I search string (.*) in search bar$/, async (searchText) => {
 
 When(/^I navigate to element type (.*) with text (.*)$/, async (elementType,textValue) => {
     await productListingPage.navigateToElementTypeWithText(elementType,textValue)
-    await console.log("done");
 });
 
-Given('I apply filters with the following conditions:', function (dataTable) {
+Given('I apply filters with the following conditions:', async function (dataTable) {
 
     const filtersData = dataTable.raw();
   
@@ -45,20 +44,27 @@ Given('I apply filters with the following conditions:', function (dataTable) {
       const conditions = row[0].split(','); 
       const priceRange = row[1].split(','); 
       const itemLocation = row[2].split(','); 
-      productListingPage.applyFilters(["Condition","Price","Item Location"],conditions,priceRange,itemLocation);
+
+      await productListingPage.applyFilters(["Condition","Price","Item Location"],conditions,priceRange,itemLocation);
 
     }
 
       });
 
+Then(/^"(.*)" visible in first search result$/, async (content) => {
+    const regex = new RegExp(content, "i");
+    await expect(productListingPage.firstResult()).toBeExisting();
+    await expect(productListingPage.firstResult()).toHaveTextContaining(regex);
+    await browser.saveScreenshot('./screenshots/error.png');
+});      
+
 
 Then(/^I should see (.*)$/, async (content) => {
     await expect(productListingPage.filterText).toBeExisting();
     await expect(productListingPage.filterText).toHaveTextContaining(content);
+    await browser.saveScreenshot('./screenshots/error.png');
+    
 });
 
-Then(/^I should see (.*) in first search result$/, async (content) => {
-    await expect(productListingPage.firstResult).toBeExisting();
-    await expect(productListingPage.firstResult).toHaveTextContaining(content);
-});
+
 

@@ -7,5 +7,5 @@ Feature: Access a Product via category after applying multiple filters
     When I navigate to main menu Cell Phones & Smartphones
     When I apply filters with the following conditions:
       | Conditions | PriceRange | ItemLocation |
-      | New,Used   | 1000,5000  | US Only      |
+      | New,Used   | 1000,5000  | Default      |
     Then I should see 3 filters applied

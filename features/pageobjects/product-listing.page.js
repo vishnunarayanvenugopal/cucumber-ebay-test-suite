@@ -24,7 +24,7 @@ class ProductListingPage extends Page {
 
     firstResult () 
     {
-        return $('//ul[contains(@class, "srp-results")]/li//a/div/span[@role="heading"]');
+        return $('(//ul[contains(@class, "srp-results")]/li//a/div/span[@role="heading"])[1]');
     }
 
     filterScrollSelection () 
@@ -39,12 +39,12 @@ class ProductListingPage extends Page {
 
     priceRangeBox (occurance) 
     {
-        return $('(//div[@class="x-textrange__block"])['+occurance+']');
+        return $('(//div[@class="x-textrange__block"]/input)['+occurance+']');
     }
 
     radioButtonWithValue (value) 
     {
-        return $('//span[contains(@class, "radio")]/following-sibling::label/span[text()="'+value+'"]');
+        return $('//span[contains(@class, "radio")]/input[@value="'+value+'"]');
     }
 
     async navigateToElementTypeWithText (elementType,text) 
@@ -72,7 +72,8 @@ class ProductListingPage extends Page {
     {
         for(var i=0;i<2;i++)
         {
-            await this.priceRangeBox(i).setValue(range[i]);
+            await this.priceRangeBox(i+1).click();
+            await this.priceRangeBox(i+1).setValue(range[i]);
             await browser.pause(3000);
         }
     }
@@ -88,28 +89,28 @@ class ProductListingPage extends Page {
 
     async applyFilters (filters,Conditions,PriceRange,ItemLocation) 
     {
-        super.clickElement(this.filtersButton());
+        await super.clickElement(this.filtersButton());
 
         for(var i=0;i<filters.length;i++)
         {
             //this.filterScrollSelection();
-            this.performSwitchFilterPopUp(filters[i]);
+            await this.performSwitchFilterPopUp(filters[i]);
             await browser.pause(3000);
             if(filters[i]=="Condition")
             {
-                this.selectFilterCheckBox(Conditions);
+                await this.selectFilterCheckBox(Conditions);
             }
             if(filters[i]=="Price")
             {
-                this.enterPriceRange(PriceRange);
+                await this.enterPriceRange(PriceRange);
             }
             if(filters[i]=="Item Location")
             {
-                this.selectRadioButtons(ItemLocation);
+                await this.selectRadioButtons(ItemLocation);
             }
         }
 
-        super.clickElement(this.filtersApply());
+        return super.clickElement(this.filtersApply());
 
     }
 }

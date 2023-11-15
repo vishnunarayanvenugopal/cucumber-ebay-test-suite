@@ -1,0 +1,22 @@
+
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Run WebdriverIO",
+        "type": "node",
+        "request": "launch",
+        "program": "./node_modules/.bin/wdio",
+        "args": ["wdio.conf.js"],
+        "cwd": "./",
+        "protocol": "inspector",
+        "runtimeExecutable": "./node_modules/.bin/wdio",
+        "runtimeArgs": ["wdio.conf.js"],
+        "console": "integratedTerminal",
+        "internalConsoleOptions": "neverOpen",
+        "disableOptimisticBPs": true,
+        "timeout": 60000
+      }
+    ]
+  }
+  
