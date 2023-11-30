@@ -52,6 +52,11 @@ class ProductListingPage extends Page {
         return super.navigateToElementTypeByTextValue(elementType,text);
     }
 
+    async navigateToFirstResult() 
+    {
+        return super.clickElement(this.firstResult());
+    }
+
 
     async performSwitchFilterPopUp (filterBy) 
     {
